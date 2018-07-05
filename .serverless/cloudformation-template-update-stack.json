@@ -73,6 +73,13 @@
                     "s3:*"
                   ],
                   "Resource": "arn:aws:s3:::*"
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "dynamodb:*"
+                  ],
+                  "Resource": "arn:aws:dynamodb:ap-northeast-1:*:table/*"
                 }
               ]
             }
@@ -99,7 +106,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/serverless-s3-go/dev/1530786181520-2018-07-05T10:23:01.520Z/serverless-s3-go.zip"
+          "S3Key": "serverless/serverless-s3-go/dev/1530826806151-2018-07-05T21:40:06.151Z/serverless-s3-go.zip"
         },
         "FunctionName": "serverless-s3-go-dev-create",
         "Handler": "bin/create",
@@ -111,21 +118,31 @@
           ]
         },
         "Runtime": "go1.x",
-        "Timeout": 6
+        "Timeout": 6,
+        "Environment": {
+          "Variables": {
+            "IMAGE_META_DATA_TABLE": {
+              "Ref": "ImageMetaDataTable"
+            },
+            "SEQUENCE_TABLE": {
+              "Ref": "SequenceTable"
+            }
+          }
+        }
       },
       "DependsOn": [
         "CreateLogGroup",
         "IamRoleLambdaExecution"
       ]
     },
-    "CreateLambdaVersionQPdjnIGAs2hom3FqbACkZtyAFjcnNTc7i9L1t7MtPTA": {
+    "CreateLambdaVersionfj8N8gYUVEB0UuhCwEVrYktpVNWQS2m1qGmY3dHFAg": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "CreateLambdaFunction"
         },
-        "CodeSha256": "4VOb2eHwfrZORytiCzbPxj00dLlXsb3VRxtDcT4D6q0="
+        "CodeSha256": "AjsgvlQsbgPRv65bnuJb0CxjefTQlq/m++Tv3LhdReo="
       }
     },
     "ApiGatewayRestApi": {
@@ -243,7 +260,7 @@
         "MethodResponses": []
       }
     },
-    "ApiGatewayDeployment1530786181563": {
+    "ApiGatewayDeployment1530826806196": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -307,6 +324,48 @@
       "Properties": {
         "BucketName": "gakustestbuckets2"
       }
+    },
+    "ImageMetaDataTable": {
+      "Type": "AWS::DynamoDB::Table",
+      "Properties": {
+        "AttributeDefinitions": [
+          {
+            "AttributeName": "ID",
+            "AttributeType": "N"
+          }
+        ],
+        "KeySchema": [
+          {
+            "AttributeName": "ID",
+            "KeyType": "HASH"
+          }
+        ],
+        "ProvisionedThroughput": {
+          "ReadCapacityUnits": 1,
+          "WriteCapacityUnits": 1
+        }
+      }
+    },
+    "SequenceTable": {
+      "Type": "AWS::DynamoDB::Table",
+      "Properties": {
+        "AttributeDefinitions": [
+          {
+            "AttributeName": "TableName",
+            "AttributeType": "S"
+          }
+        ],
+        "KeySchema": [
+          {
+            "AttributeName": "TableName",
+            "KeyType": "HASH"
+          }
+        ],
+        "ProvisionedThroughput": {
+          "ReadCapacityUnits": 1,
+          "WriteCapacityUnits": 1
+        }
+      }
     }
   },
   "Outputs": {
@@ -318,7 +377,7 @@
     "CreateLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "CreateLambdaVersionQPdjnIGAs2hom3FqbACkZtyAFjcnNTc7i9L1t7MtPTA"
+        "Ref": "CreateLambdaVersionfj8N8gYUVEB0UuhCwEVrYktpVNWQS2m1qGmY3dHFAg"
       }
     },
     "ServiceEndpoint": {

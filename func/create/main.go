@@ -55,8 +55,10 @@ func decodeData(inlineImageData string) io.Reader {
 }
 
 func createObjectKey(name string) string {
-	t := time.Now().Format("2006-01-02-15:04:05.000")
-	return fmt.Sprintf("[%s]%s", t, name)
+	jst, _ := time.LoadLocation("Asia/Tokyo")
+	t := time.Now().In(jst)
+	ft := t.Format("2006-01-02-15:04:05.000")
+	return fmt.Sprintf("[%s]%s", ft, name)
 }
 
 func Handler(ctx context.Context, request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
@@ -73,6 +75,7 @@ func Handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 	})
 	for _, v := range i {
 		putData(decodeData(v.original), v.objectKey)
+		storeMetaData(v)
 	}
 	return events.APIGatewayProxyResponse{
 		Body: fmt.Sprintf("%#v", i),

@@ -10,6 +10,10 @@ provider:
       Action:
         - "s3:*"
       Resource: "arn:aws:s3:::*"
+    - Effect: Allow
+      Action:
+        - dynamodb:*
+      Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/*"
 
 custom:
   defaultStage: dev
@@ -28,6 +32,11 @@ functions:
           path: func
           method: post
           cors: true
+    environment:
+      IMAGE_META_DATA_TABLE:
+        Ref: ImageMetaDataTable
+      SEQUENCE_TABLE:
+        Ref: SequenceTable
 
 #functions:
 #  create:
@@ -43,3 +52,33 @@ resources:
       Type: "AWS::S3::Bucket"
       Properties:
         BucketName: gakustestbuckets2
+    ImageMetaDataTable:
+      Type: 'AWS::DynamoDB::Table'
+      #DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: ID
+            AttributeType: N
+        KeySchema:
+          -
+            AttributeName: ID
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+    SequenceTable:
+      Type: 'AWS::DynamoDB::Table'
+      #DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: TableName
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: TableName
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1

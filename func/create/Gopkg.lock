@@ -38,11 +38,14 @@
     "private/protocol",
     "private/protocol/eventstream",
     "private/protocol/eventstream/eventstreamapi",
+    "private/protocol/json/jsonutil",
+    "private/protocol/jsonrpc",
     "private/protocol/query",
     "private/protocol/query/queryutil",
     "private/protocol/rest",
     "private/protocol/restxml",
     "private/protocol/xml/xmlutil",
+    "service/dynamodb",
     "service/s3",
     "service/sts"
   ]
@@ -75,6 +78,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "05bb11663ebc4d1796337ac7febd5b916e6feb30fb371e6de4cc52aeedd4866c"
+  inputs-digest = "7b5c27bb0bfe59b64464c22967f12eaca76bfca4d351763d606bada9d4a27c45"
   solver-name = "gps-cdcl"
   solver-version = 1
