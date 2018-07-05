@@ -29,6 +29,7 @@ type imageData struct {
 func putData(file io.Reader, objectKey string, contentType string) {
 	svc := s3.New(session.New())
 	input := &s3.PutObjectInput{
+		ACL:         aws.String("public-read"),
 		Body:        aws.ReadSeekCloser(file),
 		Bucket:      aws.String("gakustestbuckets2"),
 		Key:         aws.String(objectKey),
