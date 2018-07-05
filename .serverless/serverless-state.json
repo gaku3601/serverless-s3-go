@@ -118,7 +118,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/serverless-s3-go/dev/1529452979132-2018-06-20T00:02:59.132Z/serverless-s3-go.zip"
+                "S3Key": "serverless/serverless-s3-go/dev/1530786181520-2018-07-05T10:23:01.520Z/serverless-s3-go.zip"
               },
               "FunctionName": "serverless-s3-go-dev-create",
               "Handler": "bin/create",
@@ -137,14 +137,14 @@
               "IamRoleLambdaExecution"
             ]
           },
-          "CreateLambdaVersionH7G5VOTBPmNsL4vxNa9xqo5yw0YTFA8eWtvqdvg4": {
+          "CreateLambdaVersionQPdjnIGAs2hom3FqbACkZtyAFjcnNTc7i9L1t7MtPTA": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "CreateLambdaFunction"
               },
-              "CodeSha256": "xwDv1hxgaQ6R+d48B5yx3P/IBVIGBeETF2JOXSgxvq8="
+              "CodeSha256": "4VOb2eHwfrZORytiCzbPxj00dLlXsb3VRxtDcT4D6q0="
             }
           },
           "ApiGatewayRestApi": {
@@ -262,7 +262,7 @@
               "MethodResponses": []
             }
           },
-          "ApiGatewayDeployment1529452979187": {
+          "ApiGatewayDeployment1530786181563": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -337,7 +337,7 @@
           "CreateLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "CreateLambdaVersionH7G5VOTBPmNsL4vxNa9xqo5yw0YTFA8eWtvqdvg4"
+              "Ref": "CreateLambdaVersionQPdjnIGAs2hom3FqbACkZtyAFjcnNTc7i9L1t7MtPTA"
             }
           },
           "ServiceEndpoint": {
@@ -432,7 +432,7 @@
     "artifact": "/Users/gaku/src/github.com/gaku3601/serverless-s3-go/.serverless/serverless-s3-go.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/serverless-s3-go/dev/1529452979132-2018-06-20T00:02:59.132Z",
+    "artifactDirectoryName": "serverless/serverless-s3-go/dev/1530786181520-2018-07-05T10:23:01.520Z",
     "artifact": "serverless-s3-go.zip"
   }
 }

@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"io"
 	"strings"
+	"time"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
@@ -18,17 +19,17 @@ import (
 )
 
 type imageData struct {
-	original string
-	name     string
-	binary   string
+	original  string
+	name      string
+	objectKey string
 }
 
-func putData(file io.Reader) {
+func putData(file io.Reader, objectKey string) {
 	svc := s3.New(session.New())
 	input := &s3.PutObjectInput{
 		Body:   aws.ReadSeekCloser(file),
 		Bucket: aws.String("gakustestbuckets2"),
-		Key:    aws.String("test.jpg"),
+		Key:    aws.String(objectKey),
 	}
 	_, err := svc.PutObject(input)
 	if err != nil {
@@ -53,20 +54,25 @@ func decodeData(inlineImageData string) io.Reader {
 	return res
 }
 
+func createObjectKey(name string) string {
+	t := time.Now().Format("2006-01-02-15:04:05.000")
+	return fmt.Sprintf("[%s]%s", t, name)
+}
+
 func Handler(ctx context.Context, request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	//	data, _ := base64.StdEncoding.DecodeString(request.Body)
 	i := []imageData{}
 	dataList := gjson.Get(request.Body, "dataList")
 	dataList.ForEach(func(key, value gjson.Result) bool {
 		d := imageData{
-			original: value.Get("data").String(),
-			name:     value.Get("name").String(),
+			original:  value.Get("data").String(),
+			name:      value.Get("name").String(),
+			objectKey: createObjectKey(value.Get("name").String()),
 		}
 		i = append(i, d)
 		return true // keep iterating
 	})
 	for _, v := range i {
-		putData(decodeData(v.original))
+		putData(decodeData(v.original), v.objectKey)
 	}
 	return events.APIGatewayProxyResponse{
 		Body: fmt.Sprintf("%#v", i),
