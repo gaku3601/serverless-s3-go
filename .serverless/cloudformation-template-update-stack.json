@@ -106,7 +106,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/serverless-s3-go/dev/1530826806151-2018-07-05T21:40:06.151Z/serverless-s3-go.zip"
+          "S3Key": "serverless/serverless-s3-go/dev/1530830357910-2018-07-05T22:39:17.910Z/serverless-s3-go.zip"
         },
         "FunctionName": "serverless-s3-go-dev-create",
         "Handler": "bin/create",
@@ -135,14 +135,14 @@
         "IamRoleLambdaExecution"
       ]
     },
-    "CreateLambdaVersionfj8N8gYUVEB0UuhCwEVrYktpVNWQS2m1qGmY3dHFAg": {
+    "CreateLambdaVersionWO8MwP8ADOmWRfY9RZHj4RA8jF0lsYIiOsmy25PmQA": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "CreateLambdaFunction"
         },
-        "CodeSha256": "AjsgvlQsbgPRv65bnuJb0CxjefTQlq/m++Tv3LhdReo="
+        "CodeSha256": "7FCkE2QXxy+c1HmxpW4zVY3BBL3dbV3VN2AkpRWJXoo="
       }
     },
     "ApiGatewayRestApi": {
@@ -260,7 +260,7 @@
         "MethodResponses": []
       }
     },
-    "ApiGatewayDeployment1530826806196": {
+    "ApiGatewayDeployment1530830357980": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -377,7 +377,7 @@
     "CreateLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "CreateLambdaVersionfj8N8gYUVEB0UuhCwEVrYktpVNWQS2m1qGmY3dHFAg"
+        "Ref": "CreateLambdaVersionWO8MwP8ADOmWRfY9RZHj4RA8jF0lsYIiOsmy25PmQA"
       }
     },
     "ServiceEndpoint": {

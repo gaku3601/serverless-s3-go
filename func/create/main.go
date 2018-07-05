@@ -19,17 +19,20 @@ import (
 )
 
 type imageData struct {
-	original  string
-	name      string
-	objectKey string
+	original    string
+	name        string
+	objectKey   string
+	file        io.Reader
+	contentType string
 }
 
-func putData(file io.Reader, objectKey string) {
+func putData(file io.Reader, objectKey string, contentType string) {
 	svc := s3.New(session.New())
 	input := &s3.PutObjectInput{
-		Body:   aws.ReadSeekCloser(file),
-		Bucket: aws.String("gakustestbuckets2"),
-		Key:    aws.String(objectKey),
+		Body:        aws.ReadSeekCloser(file),
+		Bucket:      aws.String("gakustestbuckets2"),
+		Key:         aws.String(objectKey),
+		ContentType: aws.String(contentType),
 	}
 	_, err := svc.PutObject(input)
 	if err != nil {
@@ -47,11 +50,18 @@ func putData(file io.Reader, objectKey string) {
 	}
 }
 
-func decodeData(inlineImageData string) io.Reader {
+func decodeData(inlineImageData string) (io.Reader, string) {
 	ary := strings.Split(inlineImageData, ",")
+	contentType := getContentType(ary[0])
 	unbased, _ := base64.StdEncoding.DecodeString(ary[1])
 	res := bytes.NewReader(unbased)
-	return res
+	return res, contentType
+}
+
+func getContentType(rawMeta string) string {
+	r := strings.Replace(rawMeta, "data:", "", 1)
+	r = strings.Replace(r, ";base64", "", 1)
+	return r
 }
 
 func createObjectKey(name string) string {
@@ -65,16 +75,19 @@ func Handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 	i := []imageData{}
 	dataList := gjson.Get(request.Body, "dataList")
 	dataList.ForEach(func(key, value gjson.Result) bool {
+		file, contentType := decodeData(value.Get("data").String())
 		d := imageData{
-			original:  value.Get("data").String(),
-			name:      value.Get("name").String(),
-			objectKey: createObjectKey(value.Get("name").String()),
+			original:    value.Get("data").String(),
+			name:        value.Get("name").String(),
+			objectKey:   createObjectKey(value.Get("name").String()),
+			file:        file,
+			contentType: contentType,
 		}
 		i = append(i, d)
 		return true // keep iterating
 	})
 	for _, v := range i {
-		putData(decodeData(v.original), v.objectKey)
+		putData(v.file, v.objectKey, v.contentType)
 		storeMetaData(v)
 	}
 	return events.APIGatewayProxyResponse{
