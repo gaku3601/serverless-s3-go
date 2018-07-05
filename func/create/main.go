@@ -6,6 +6,7 @@ import (
 	"encoding/base64"
 	"fmt"
 	"io"
+	"os"
 	"strings"
 	"time"
 
@@ -31,7 +32,7 @@ func putData(file io.Reader, objectKey string, contentType string) {
 	input := &s3.PutObjectInput{
 		ACL:         aws.String("public-read"),
 		Body:        aws.ReadSeekCloser(file),
-		Bucket:      aws.String("gakustestbuckets2"),
+		Bucket:      aws.String(os.Getenv("IMAGE_BUCKET")),
 		Key:         aws.String(objectKey),
 		ContentType: aws.String(contentType),
 	}
