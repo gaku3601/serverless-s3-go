@@ -10,3 +10,8 @@
 ## deploy production
 
     make prod-deploy
+
+# curl
+
+   [show]
+   curl -X <url>/<id>
