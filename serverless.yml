@@ -53,6 +53,12 @@ functions:
           path: func
           method: get
           cors: true
+  destroy:
+    handler: bin/destroy
+    events:
+      - http:
+          path: func/{id}
+          method: delete
 
 #functions:
 #  create:

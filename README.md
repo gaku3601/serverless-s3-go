@@ -17,3 +17,5 @@
     curl -X <url>/<id>
     [index]
     curl -X GET <URL>?start=1\&end=10
+    [destroy]
+    curl -X DELETE <URL>/{id}
