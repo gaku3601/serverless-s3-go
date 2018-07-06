@@ -1,7 +1,7 @@
 # quick start
 ## create app
 
-    serverless create -u https://github.com/gaku3601/serverless-go/ -p your_app_name
+    serverless create -u https://github.com/gaku3601/serverless-s3-go/ -p your_app_name
 
 ## deploy
 
