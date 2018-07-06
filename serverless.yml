@@ -46,6 +46,13 @@ functions:
           path: func/{id}
           method: get
           cors: true
+  index:
+    handler: bin/index
+    events:
+      - http:
+          path: func
+          method: get
+          cors: true
 
 #functions:
 #  create:
