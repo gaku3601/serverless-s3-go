@@ -13,5 +13,7 @@
 
 # curl
 
-   [show]
-   curl -X <url>/<id>
+    [show]
+    curl -X <url>/<id>
+    [index]
+    curl -X GET <URL>?start=1\&end=10
